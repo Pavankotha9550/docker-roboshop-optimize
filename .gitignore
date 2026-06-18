@@ -1,0 +1,5 @@
+*.tf
+*.terraform
+*.sh
+*.tfstate
+docker_server/

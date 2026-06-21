@@ -1,12 +1,12 @@
 # FROM node:20
 # WORKDIR /opt/server
-# ENV MONGO="true"
-# ENV REDIS_URL="redis://redis:6379"
-# ENV MONGO_URL="mongodb://mongodb:27017/users"
+# ENV MONGO="true"  \
+#     REDIS_URL="redis://redis:6379"    \
+#     MONGO_URL="mongodb://mongodb:27017/users"
 # COPY package.json .
 # COPY *.js .
 # RUN npm install
-# RUN apt-get update -y \
+# RUN apt-get update -y \   #useless just testing all thesse 3 below commands
 #     && apt-get install net-tools git -y \
 #     && apt-get clean
 # CMD ["node","server.js"]
@@ -16,19 +16,18 @@ WORKDIR /opt/server
 COPY package.json .
 COPY *.js .
 RUN npm install
-<<<<<<< HEAD
-# RUN apt-get update -y \
-#     && apt-get install net-tools git -y \
-#     && apt-get clean
-=======
 
 FROM node:20-alpine3.21
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
-ENV MONGO_URL="mongodb://mongodb:27017/users" \
-    REDIS_URL="redis://redis:6379" \
-    MONGO=true
+ENV MONGO="true"  \
+    REDIS_URL="redis://redis:6379"    \
+    MONGO_URL="mongodb://mongodb:27017/users"
 WORKDIR /opt/server
+RUN chown -R roboshop:roboshop /opt/server
 USER roboshop
 COPY --from=builder /opt/server /opt/server
->>>>>>> 6f84c35 (docker-roboshop)
+
+# RUN apt-get update -y \   #useless just testing all thesse 3
+#     && apt-get install net-tools git -y \
+#     && apt-get clean
 CMD ["node","server.js"]
